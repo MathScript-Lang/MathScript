@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MathScript
+﻿namespace MathScript
 {
+    [Flags]
     internal enum DebugLevel
     {
-        None,
-        Parser,
-        Lexer,
-        Interpreter
+        None = 0,
+        Parser = 1,
+        Lexer = 2,
+        Interpreter = 4
     }
 
     internal enum DebugLevelArgument
     {
-        parser = DebugLevel.Parser,
-        lexer = DebugLevel.Lexer,
-        parser_lexer = DebugLevel.Parser | DebugLevel.Lexer,
-        all = DebugLevel.Parser | DebugLevel.Lexer | DebugLevel.Interpreter
+        Parser = DebugLevel.Parser,
+        Lexer = DebugLevel.Lexer,
+        ParserLexer = DebugLevel.Parser | DebugLevel.Lexer,
+        All = DebugLevel.Parser | DebugLevel.Lexer | DebugLevel.Interpreter
     }
 }
