@@ -1,18 +1,68 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <PackageLicenseExpression>GPL-2.0</PackageLicenseExpression>
-    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-	<VersionPrefix>2.0.0</VersionPrefix>
-	<VersionSuffix>alpha0.1.0</VersionSuffix>
-  </PropertyGroup>
+	<PropertyGroup>
+		<AssemblyName>$([System.String]::Copy('$(MSBuildProjectName)').ToLowerInvariant())</AssemblyName>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<PackageLicenseExpression>GPL-2.0</PackageLicenseExpression>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<VersionPrefix>2.0.0</VersionPrefix>
+		<VersionSuffix>alpha0.1.0</VersionSuffix>
+		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+		<BuildDate>$([System.DateTime]::Now.Ticks)</BuildDate>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Antlr4.Runtime.Standard" Version="4.13.1" />
+		<PackageReference Include="Antlr4BuildTasks" Version="12.14.0" />
+		<PackageReference Include="DynamicLanguageRuntime" Version="1.3.5" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" />
+		<PackageReference Include="Spdx" Version="0.11.1-preview.0.1" />
+		<PackageReference Include="Spectre.Console" Version="0.54.1-alpha.0.32" />
+		<PackageReference Include="System.CommandLine" Version="2.0.2" />
+		<PackageReference Include="System.Reflection.Metadata" Version="10.0.2" />
+		<Antlr4 Include="MathScript.g4" />
+	</ItemGroup>
+	
+	<Target Name="GetGitTag">
+		<Exec Command="git describe --tags --abbrev=0" ConsoleToMSBuild="true" IgnoreExitCode="true">
+			<Output TaskParameter="ConsoleOutput" PropertyName="GitTagRaw" />
+			<Output TaskParameter="ExitCode" PropertyName="GitTagExitCode" />
+		</Exec>
+		<PropertyGroup>
+			<GitTag Condition="'$(GitTaExitCode)' == ''">$([System.String]::Copy('$(GitTagRaw)').Trim())</GitTag>
+			<GitTag Condition="'$(GitTagExitCode)' != ''">unknown</GitTag>
+		</PropertyGroup>
+		<Warning Condition="'$(GitTagExitCode)' != '0'" Text="Git tag not found, using 'unknown'" />
+	</Target>
+
+	<Target Name="GetGitHash">
+		<Exec Command="git rev-parse --short HEAD" ConsoleToMSBuild="true" IgnoreExitCode="true">
+			<Output TaskParameter="ConsoleOutput" PropertyName="GitHashRaw" />
+			<Output TaskParameter="ExitCode" PropertyName="GitHashExitCode" />
+		</Exec>
+		<PropertyGroup>
+			<GitHash Condition="'$(GitHashExitCode)' == 0">$([System.String]::Copy('$(GitHashRaw)').Trim())</GitHash>
+			<GitHash Condition="'$(GitHashExitCode)' != 0">unknown</GitHash>
+		</PropertyGroup>
+		<Warning Condition="'$(GitHashExitCode)' != '0'" Text="Git tag not found, using 'unknown'" />
+	</Target>
+
+	<Target Name="GenerateBuildInfo" DependsOnTargets="GetGitTag;GetGitHash" BeforeTargets="CoreCompile">
+		<ItemGroup>
+			<BuildInfoCode Include="public static class BuildInfo" />
+			<BuildInfoCode Include="{" />
+			<BuildInfoCode Include="%20%20%20%20public static DateTime BuildDate { get%3b } = new($(BuildDate))%3b" />
+			<BuildInfoCode Include="%20%20%20%20public static string GitTag { get%3b } = %22$(GitTag)%22%3b" />
+			<BuildInfoCode Include="%20%20%20%20public static string GitHash { get%3b } = %22$(GitHash)%22%3b" />
+			<BuildInfoCode Include="%20%20%20%20public static string License { get%3b } = %22$(PackageLicenseExpression)%22%3b" />
+			<BuildInfoCode Include="}" />
+		</ItemGroup>
+	
+		<WriteLinesToFile File="Generated Files\BuildInfo.cs" Lines="@(BuildInfoCode)" Overwrite="true" />
+	</Target>
 
 </Project>
