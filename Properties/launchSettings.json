@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MathScript": {
+      "commandName": "Project",
+      "commandLineArgs": "-d All"
+    }
+  }
+}
