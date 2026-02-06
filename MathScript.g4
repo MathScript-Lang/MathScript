@@ -12,7 +12,7 @@ stat
 	| KEYWORD_BREAK ';'
 	| KEYWORD_CONTINUE ';'
 	| switch_stat
-	| KEYWORD_IMPORT ID ';'
+	| KEYWORD_IMPORT ID ('.' ID)* ';'
 	| class_def
 	;
 expr
