@@ -12,6 +12,8 @@ stat
 	| KEYWORD_BREAK ';'
 	| KEYWORD_CONTINUE ';'
 	| switch_stat
+	| KEYWORD_IMPORT ID ';'
+	| class_def
 	;
 expr
 	: type? ID '=' expr # assign
@@ -30,6 +32,7 @@ atom
 	| (ID | PRIMITIVE_TYPE)			   # id
 	| literal					       # lit
 	| atom '_' '(' expr ')'            # indexing
+	| atom '.' (ID | literal)          # attributing
 	| atom '(' (expr (',' expr)*)? ')' # func_call
 	;
 literal
@@ -40,7 +43,7 @@ literal
 	| sequence | set | vector
 	| lambda
 	;
-type         : (PRIMITIVE_TYPE | ID) ('<' type '>')? ;
+type         : (PRIMITIVE_TYPE | ID) ('<' (type | literal | ID) (',' (type | literal | ID))* '>')? ;
 scope        : '{' stat* '}' ;
 if_stat      : KEYWORD_IF '(' expr ')' scope (KEYWORD_ELSE KEYWORD_IF '(' expr ')' scope)* (KEYWORD_ELSE scope)? ;
 while_stat   : KEYWORD_WHILE '(' expr ')' scope ;
@@ -49,6 +52,7 @@ switch_stat  : KEYWORD_SWITCH '(' expr ')' '{' case_stat* default_stat? '}' ;
 case_stat    : KEYWORD_CASE expr scope ;
 default_stat : KEYWORD_DEFAULT scope ;
 func_def     : KEYWORD_FUNC type ID '(' type ID ('=' atom)? (',' type ID ('=' atom)?)* ')' scope ;
+class_def    : KEYWORD_CLASS ID ('(' type ID (',' type ID)* ')')? (PRIMITIVE_TYPE | ID)? scope ;
 
 sequence : '(' (expr ',' (expr (',' expr)*)?)? ')' ;
 set      : '{' ((expr ',' (expr (',' expr)*)?)? | set_builder) '}' ;
@@ -107,6 +111,8 @@ KEYWORD_CONTINUE : 'continue' ;
 KEYWORD_SWITCH	 : 'switch' ;
 KEYWORD_CASE	 : 'case' ;
 KEYWORD_DEFAULT  : 'default' ;
+KEYWORD_IMPORT   : 'import' ;
+KEYWORD_CLASS    : 'class' ;
 PRIMITIVE_TYPE
 	: 'natural'         | 'N'
 	| 'relative'		| 'Z' | 'int'
@@ -124,6 +130,7 @@ PRIMITIVE_TYPE
 	| 'bool'
 	| 'null_t'
 	| 'any'
+	| 'type'
 	;
 ID      : [A-Za-z_][A-Za-z0-9_]* ;
 COMMENT : (('#' | '//') ~[\r\n]* | '/*' .*? '*/') -> skip;
