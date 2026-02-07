@@ -28,7 +28,8 @@ Options:
 
 ### MathScript(.py)
 
-MathScript started as just following a tutorial on how to make a programming language, by CodePulse.
+MathScript started as just following a tutorial on how to make a programming language, by
+[CodePulse](https://www.youtube.com/@CodePulse) ([Make YOUR OWN Programming Language in Python](https://www.youtube.com/playlist?list=PLZQftyCk7_SdoVexSmwy_tBgs7P0b97yD), 15 videos).
 This tutorial was implementing a BASIC-like language in Python with a manual parser-lexer. MathScript
 was a mildly-customized implementation of it, mainly following the tutorial. Eventually, I just found
 out that... this was shit. Not the type of syntax I wanted, very brittle, almost impossible to
@@ -89,7 +90,7 @@ Currently, there are 10 of them, all can be found as `MathScriptInfo.SplashTexts
 - "6? 9? 7.5 ± 1.5 !": That's a meme, the one with a 6/9 and two people looking at it, one from up of it
   and the other from bottom of it
 - "not C!": Minecraft-style splash text, equivalent of "Not linear!"
-- "do not ask me about calculator.py's splash screens pls": Don't ask me pls...
+- "do not ask me about calculator.py's splash screens pls": Don't ask me please...
 - "Math + Script = MathScript.": Random
-- "portals must bend gravity.": Reference to [optozorax](https://www.youtube.com/@optozorax_en)'s [Portals must bend gravity, actually](https://www.youtube.com/watch?v=DydIhwLrbMk)
+- "portals must bend gravity.": Reference to [optozorax](https://www.youtube.com/@optozorax_en)'s "[Portals must bend gravity, actually](https://www.youtube.com/watch?v=DydIhwLrbMk)"
 - "Did I implement splash texts thinking I had a lot of splash text ideas but in fact forgot them and thus just put a bunch of random ones... maybe.": Pretty self-explanatory I'd say...
