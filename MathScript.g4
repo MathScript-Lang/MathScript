@@ -2,18 +2,18 @@
 
 prog : stat* EOF ;
 stat
-	: expr ';'
-	| scope
-	| if_stat
-	| while_stat
-	| for_stat
-	| func_def
-	| KEYWORD_RET expr? ';'
-	| KEYWORD_BREAK ';'
-	| KEYWORD_CONTINUE ';'
-	| switch_stat
-	| KEYWORD_IMPORT ID ('.' ID)* ';'
-	| class_def
+	: expr ';'						  # expr_stat
+	| scope							  # scope_stat
+	| if_stat						  # s_if_stat
+	| while_stat					  # s_while_stat
+	| for_stat						  # s_for_stat
+	| func_def						  # func_def_stat
+	| KEYWORD_RET expr? ';'			  # ret_stat
+	| KEYWORD_BREAK ';'				  # break_stat
+	| KEYWORD_CONTINUE ';'			  # continue_stat
+	| switch_stat					  # s_switch_stat
+	| KEYWORD_IMPORT ID ('.' ID)* ';' # import_stat
+	| class_def						  # class_def_stat
 	;
 expr
 	: type? ID '=' expr # assign
@@ -36,12 +36,14 @@ atom
 	| atom '(' (expr (',' expr)*)? ')' # func_call
 	;
 literal
-	: NUMBER
-	| STRING
-	| BOOLEAN
-	| NULL
-	| sequence | set | vector
-	| lambda
+	: NUMBER   # num_lit
+	| STRING   # str_lit
+	| BOOLEAN  # bool_lit
+	| NULL	   # null_lit
+	| sequence # seq_lit
+	| set	   # set_lit
+	| vector   # vec_lit
+	| lambda   # lambda_lit
 	;
 type         : (PRIMITIVE_TYPE | ID) ('<' (type | literal | ID) (',' (type | literal | ID))* '>')? ;
 scope        : '{' stat* '}' ;
@@ -130,7 +132,7 @@ PRIMITIVE_TYPE
 	| 'bool'
 	| 'null_t'
 	| 'any'
-	| 'type'
+	| 'type' | 'module'
 	;
 ID      : [A-Za-z_][A-Za-z0-9_]* ;
 COMMENT : (('#' | '//') ~[\r\n]* | '/*' .*? '*/') -> skip;

@@ -1,5 +1,6 @@
 ﻿using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
+using MathScript.Visitors;
 using Spectre.Console;
 using System.Text.Json;
 
@@ -52,14 +53,35 @@ namespace MathScript
             return Parse(Lex(code));
         }
 
-        public static object Execute(string code)
+        public static object? Execute(IParseTree tree)
+        {
+            InterpreterVisitor visitor = new();
+            return visitor.Visit(tree);
+        }
+
+        public static object? Execute(ITokenStream tokens)
+        {
+            return Execute(Parse(tokens));
+        }
+
+        public static object? Execute(string code)
+        {
+            return Execute(Parse(code));
+        }
+
+        public static object? Compile(IParseTree tree, string outPath)
         {
             return 2;
         }
 
-        public static object Compile(string code)
+        public static object? Compile(string code, string outPath)
         {
-            return 2;
+            return Compile(Parse(code), outPath);
+        }
+
+        public static object? Compile(ITokenStream tokens, string outPath)
+        {
+            return Compile(Parse(tokens), outPath);
         }
     }
 }

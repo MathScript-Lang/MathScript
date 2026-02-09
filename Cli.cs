@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using Antlr4.Runtime.Tree;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Spectre.Console;
 using System.CommandLine;
 using System.CommandLine.Invocation;
@@ -90,6 +91,7 @@ namespace MathScript
                 {
                     AnsiConsole.Markup($"[red]{MathScriptInfo.LanguageName}[/]> ");
                     string? line = Console.ReadLine();
+
                     if (line == null)
                     {
                         continue;
@@ -100,20 +102,29 @@ namespace MathScript
                     }
                     else
                     {
-                        Interpreter.Parse(line);
+                        AnsiConsole.MarkupLine($"[grey]{Interpreter.Execute(line)}[/]");
                     }
                 }
             }
             else
             {
-                object AST = Interpreter.Parse("ABC");
+                // Technically redundant because of the validators, but better safer than never...
+                // and also makes the compiler shut up about inPath being nullable while when we make
+                // it not nullable it starts yapping about type issues in the validators
+                if (!File.Exists(inPath))
+                {
+                    throw new FileNotFoundException(null, inPath);
+                }
+
+                IParseTree AST = Interpreter.Parse(File.ReadAllText(inPath));
+
                 if (outPath == null)
                 {
-                    // Execute
+                    Interpreter.Execute(AST);
                 }
                 else
                 {
-                    // Compile
+                    Interpreter.Compile(AST, outPath);
                 }
             }
         }

@@ -24,7 +24,10 @@
 		<PackageReference Include="Spectre.Console" Version="0.54.1-alpha.0.32" />
 		<PackageReference Include="System.CommandLine" Version="2.0.2" />
 		<PackageReference Include="System.Reflection.Metadata" Version="10.0.2" />
-		<Antlr4 Include="MathScript.g4" />
+		<Antlr4 Include="MathScript.g4">
+			<Listener>false</Listener>
+			<Visitor>true</Visitor>
+		</Antlr4>
 	</ItemGroup>
 	
 	<Target Name="GetGitTag">
