@@ -24,7 +24,7 @@ namespace MathScript
 
             Implementing [white on red]{MathScriptInfo.LanguageName}[/] syntax [green]v{MathScriptInfo.LanguageVersion}[/].
 
-            Licensed under the [blue]{MathScriptInfo.License.Name}[/] license, all rights reserved.
+            Licensed under the [blue]{MathScriptInfo.License.Name}[/] license, © 2024-present [white on red]{MathScriptInfo.LanguageName}[/].
             """;
         public static List<string> SplashTexts { get; } = [
             "Also try shell!",
@@ -38,5 +38,6 @@ namespace MathScript
             "portals must bend gravity.",
             "Did I implement splash texts thinking I had a lot of splash text ideas but in fact forgot them and thus just put a bunch of random ones... maybe."
         ];
+        public static string ModulesBaseDirectory { get; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "modules");
     }
 }
