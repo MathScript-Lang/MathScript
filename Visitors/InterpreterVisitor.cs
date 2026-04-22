@@ -9,18 +9,37 @@ using System.Threading.Tasks;
 
 namespace MathScript.Visitors
 {
-    public class InterpreterVisitor : MathScriptBaseVisitor<object?>
-    {
-        public override object? Visit(IParseTree tree)
-        {
-            object? retVal = base.Visit(tree);
+	public class InterpreterVisitor(Parser parser) : MathScriptBaseVisitor<object?>
+	{
+		public Parser Parser = parser;
 
-            if (MathScriptInfo.DebugLevel.HasFlag(DebugLevel.Interpreter))
-            {
-                AnsiConsole.MarkupLine($"[blue]{tree.GetText()} -> {retVal}[/]");
-            }
+		public override object? Visit(IParseTree tree)
+		{
+			if (MathScriptInfo.DebugLevel.HasFlag(DebugLevel.Interpreter))
+			{
+				AnsiConsole.Markup($"[blue]{tree.ToStringTree(Parser).EscapeMarkup()} -> [/]");
+			}
 
-            return retVal;
-        }
-    }
+			try
+			{
+				object? retVal = base.Visit(tree);
+
+				if (MathScriptInfo.DebugLevel.HasFlag(DebugLevel.Interpreter))
+				{
+					AnsiConsole.MarkupLine($"[blue]{retVal}[/]");
+				}
+
+				return retVal;
+			}
+			catch (Exception ex)
+			{
+				if (MathScriptInfo.DebugLevel.HasFlag(DebugLevel.Interpreter))
+				{
+					AnsiConsole.MarkupLine($"[red]{ex.Message}[/]");
+				}
+
+				return new RuntimeException(ex);
+			}
+		}
+	}
 }
