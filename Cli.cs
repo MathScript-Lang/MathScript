@@ -23,7 +23,7 @@ namespace MathScript
             Description = $"Set the debug level ({string.Join(", ", Enum.GetNames<DebugLevelArgument>())})",
             HelpName = "DebugLevel",
         }).AcceptOnlyFromAmong(Enum.GetNames<DebugLevelArgument>());
-        public static VersionOption versionOpt = new("--version", "--Version", "-v")
+        public static VersionOption versionOpt = new("--Version", "-v")
         {
             Description = "Print version information",
             Action = new VersionOptionAction()
