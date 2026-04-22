@@ -58,10 +58,10 @@
 		<ItemGroup>
 			<BuildInfoCode Include="public static class BuildInfo" />
 			<BuildInfoCode Include="{" />
-			<BuildInfoCode Include="%20%20%20%20public static DateTime BuildDate { get%3b } = new($(BuildDate))%3b" />
-			<BuildInfoCode Include="%20%20%20%20public static string GitTag { get%3b } = %22$(GitTag)%22%3b" />
-			<BuildInfoCode Include="%20%20%20%20public static string GitHash { get%3b } = %22$(GitHash)%22%3b" />
-			<BuildInfoCode Include="%20%20%20%20public static string License { get%3b } = %22$(PackageLicenseExpression)%22%3b" />
+			<BuildInfoCode Include="%09public static DateTime BuildDate { get%3b } = new($(BuildDate))%3b" />
+			<BuildInfoCode Include="%09public static string GitTag { get%3b } = %22$(GitTag)%22%3b" />
+			<BuildInfoCode Include="%09public static string GitHash { get%3b } = %22$(GitHash)%22%3b" />
+			<BuildInfoCode Include="%09public static string License { get%3b } = %22$(PackageLicenseExpression)%22%3b" />
 			<BuildInfoCode Include="}" />
 		</ItemGroup>
 	

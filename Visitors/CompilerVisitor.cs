@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace MathScript.Visitors
 {
-    internal class CompilerVisitor : MathScriptBaseVisitor<object>
-    {
+	internal class CompilerVisitor : MathScriptBaseVisitor<object>
+	{
 
-    }
+	}
 }
