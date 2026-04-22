@@ -21,7 +21,7 @@ Options:
   -d, --Debug, --debug <DebugLevel>  Set the debug level (Parser, Lexer, ParserLexer, All)
   -?, -h, --help                     Show help and usage information
   --version                          Show version information
-  -v, --version, --Version           Print version information
+  -v, --Version           Print version information
 ```
 
 ## A Brief History of ~~Time~~ MathScript
@@ -94,3 +94,25 @@ Currently, there are 10 of them, all can be found as `MathScriptInfo.SplashTexts
 - "Math + Script = MathScript.": Random
 - "portals must bend gravity.": Reference to [optozorax](https://www.youtube.com/@optozorax_en)'s "[Portals must bend gravity, actually](https://www.youtube.com/watch?v=DydIhwLrbMk)"
 - "Did I implement splash texts thinking I had a lot of splash text ideas but in fact forgot them and thus just put a bunch of random ones... maybe.": Pretty self-explanatory I'd say...
+
+## Building
+
+Clone the repository:
+
+```sh
+git clone https://github.com/MathScript-Lang/MathScript
+```
+
+You may need to build twice for your first build to generate and use `BuildInfo.cs`.
+
+### With Visual Studio
+
+Open Visual Studio, import the solution `MathScript.slnx` and build (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd> / Build > Build solution).
+
+### With `dotnet` CLI
+
+Navigate to the project's folder, and build:
+
+```sh
+dotnet build
+```
